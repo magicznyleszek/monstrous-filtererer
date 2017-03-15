@@ -1,6 +1,39 @@
 <div
     i-card
-    ng-repeat="hotel in hotels.list track by hotel.EstablishmentId"
+    i-hotel
+    ng-repeat="
+        hotel in hotels.list |
+        orderBy : hotels.selectedSortOption.property : hotels.selectedSortOption.propertyReverse
+        track by hotel.EstablishmentId"
 >
-    a hotel
+    <div i-hotel-row>
+        <span i-hotel-title ng-bind="hotel.Name"></span>
+    </div>
+
+    <div i-hotel-row>
+        <span i-hotel-price>&pound;<span ng-bind="hotel.MinCost"></span></span>
+        &mdash;
+        <span ng-bind="hotel.EstablishmentType"></span>
+        from
+        <span ng-bind="hotel.Location"></span>
+        <span i-hotel-distance ng-bind="hotel.Distance | humanizeDistance"></span>
+    </div>
+
+    <div i-hotel-row>
+        <span i-hotel-stars ng-bind="hotel.Stars | humanizeStars"></span>
+
+        <span i-hotel-rating>
+            <span i-hotel-ratingTitle ng-bind="hotel.UserRatingTitle"></span>
+            <span
+                i-hotel-ratingNumber
+                ng-if="hotel.UserRatingCount > 0"
+                ng-bind="hotel.UserRating"
+            ></span>
+            <span
+                i-hotel-ratingVotes
+                ng-if="hotel.UserRatingCount > 0"
+                ng-bind="hotel.UserRatingCount | humanizeVotesCount"
+            ></span>
+        </span>
+    </div>
 </div>
