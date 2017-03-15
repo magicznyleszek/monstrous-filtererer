@@ -19,6 +19,11 @@ class HotelsCtrl {
 
         this.selectedSortOption = hotelsSortOptions.options[0];
         this.sortOptions = hotelsSortOptions.options;
+        this.nameFilterValue = '';
+    }
+
+    onNameFilterChange() {
+        console.log(this.nameFilterValue);
     }
 
     onSortChange() {

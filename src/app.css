@@ -15,4 +15,5 @@ app styles aggregation
 @import "common/card.css";
 @import "common/text.css";
 @import "hotelsModule/filters.css";
+@import "hotelsModule/resultsCount.css";
 @import "hotelsModule/hotel.css";

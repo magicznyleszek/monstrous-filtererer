@@ -1,18 +1,35 @@
 <div i-filters>
     <h2>Filter by:</h2>
-    <div>Name</div>
+
+    <div i-filter>
+        <label i-filter-label for="hotelsName">Name:</label>
+
+        <input
+            type="text"
+            id="hotelsName"
+            name="hotelsName"
+            i-filter-textInput
+            placeholder="Place name"
+            ng-model="hotels.nameFilterValue"
+            ng-change="hotels.onNameFilterChange()"
+        >
+    </div>
+
     <div>Stars</div>
     <div>TrpRating</div>
     <div>UserRating</div>
     <div>MinCost</div>
 
-    <h2>Sort by:</h2>
+    <div i-filter>
+        <label i-filter-label for="hotelsSort">Sort by:</label>
 
-    <select
-        i-filters-select
-        name="hotelsSort"
-        ng-model="hotels.selectedSortOption"
-        ng-options="option.label for option in hotels.sortOptions"
-        ng-change="hotels.onSortChange()"
-    ></select>
+        <select
+            i-filter-select
+            id="hotelsSort"
+            name="hotelsSort"
+            ng-model="hotels.selectedSortOption"
+            ng-options="option.label for option in hotels.sortOptions"
+            ng-change="hotels.onSortChange()"
+        ></select>
+    </div>
 </div>

@@ -61,9 +61,15 @@ var HotelsCtrl = function () {
 
         this.selectedSortOption = hotelsSortOptions.options[0];
         this.sortOptions = hotelsSortOptions.options;
+        this.nameFilterValue = '';
     }
 
     _createClass(HotelsCtrl, [{
+        key: 'onNameFilterChange',
+        value: function onNameFilterChange() {
+            console.log(this.nameFilterValue);
+        }
+    }, {
         key: 'onSortChange',
         value: function onSortChange() {
             console.log(this.selectedSortOption);

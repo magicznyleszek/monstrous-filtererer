@@ -1,8 +1,24 @@
-[i-hotel] {
-}
+/*******************************************************************************
+hotel
+*******************************************************************************/
 
 [i-hotel-title] {
     font-weight: 700;
+}
+
+[i-hotel-metaPart] {
+    white-space: nowrap;
+}
+
+[i-hotel-metaPart] + [i-hotel-metaPart]::before {
+    content: "\2014";
+}
+
+[i-hotel-price] {
+    float: right;
+    margin-left: calc(var(--s-leading) * 0.5);
+    font-size: 200%;
+    font-weight: 300;
 }
 
 [i-hotel-distance]::before {
@@ -13,22 +29,8 @@
     content: ")";
 }
 
-[i-hotel-price] {
-
-}
-
 [i-hotel-stars] {
     color: var(--c-gold);
-}
-
-[i-hotel-rating] {
-}
-
-[i-hotel-ratingTitle] {
-}
-
-[i-hotel-ratingNumber] {
-
 }
 
 [i-hotel-ratingVotes]::before {

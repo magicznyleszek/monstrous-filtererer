@@ -24,7 +24,11 @@ filters
 filters input
 *******************************************************************************/
 
-[i-filters-input] {
+[i-filter-label] {
+    display: inline-block;
+}
+
+[i-filter-input] {
     display: inline-block;
     border: 0;
     border-radius: var(--s-global-br);
