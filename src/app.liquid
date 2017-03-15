@@ -1,4 +1,7 @@
 <div ng-app="monstrousFilterererAppModule" i-area="medium">
+    <script>
+        window.hotelsData = {{ site.data.hotels | jsonify }};
+    </script>
     {% include hotelsModule/hotels.liquid %}
 
     <footer i-text="centered">
