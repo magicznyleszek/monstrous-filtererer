@@ -1,6 +1,7 @@
 <div i-filters>
     <h2>Filter by:</h2>
 
+    <!-- name -->
     <div i-filter>
         <label i-filter-label for="hotelsName">Name:</label>
 
@@ -11,8 +12,20 @@
             i-filter-textInput
             placeholder="Place name"
             ng-model="hotels.nameFilterValue"
-            ng-change="hotels.onNameFilterChange()"
         >
+    </div>
+
+    <!-- stars amount -->
+    <div i-filter>
+        <label i-filter-label for="hotelsStars">Stars amount:</label>
+
+        <select
+            i-filter-select
+            id="hotelsStars"
+            name="hotelsStars"
+            ng-model="hotels.selectedStarsOption"
+            ng-options="option.label for option in hotels.starsOptions"
+        ></select>
     </div>
 
     <div>Stars</div>
@@ -20,6 +33,7 @@
     <div>UserRating</div>
     <div>MinCost</div>
 
+    <!-- sorting -->
     <div i-filter>
         <label i-filter-label for="hotelsSort">Sort by:</label>
 
@@ -29,7 +43,6 @@
             name="hotelsSort"
             ng-model="hotels.selectedSortOption"
             ng-options="option.label for option in hotels.sortOptions"
-            ng-change="hotels.onSortChange()"
         ></select>
     </div>
 </div>

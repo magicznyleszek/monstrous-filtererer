@@ -6,11 +6,16 @@ class HotelsCtrl {
     static initClass() {
         HotelsCtrl.$inject = [
             '$window',
-            'hotelsSortOptions'
+            'hotelsSortOptions',
+            'hotelsStarsOptions'
         ];
     }
 
-    constructor($window, hotelsSortOptions) {
+    constructor(
+        $window,
+        hotelsSortOptions,
+        hotelsStarsOptions
+    ) {
         if (typeof $window.hotelsData === 'object') {
             this.list = $window.hotelsData.Establishments;
         } else {
@@ -19,15 +24,11 @@ class HotelsCtrl {
 
         this.selectedSortOption = hotelsSortOptions.options[0];
         this.sortOptions = hotelsSortOptions.options;
+
+        this.selectedStarsOption = hotelsStarsOptions.options[0];
+        this.starsOptions = hotelsStarsOptions.options;
+
         this.nameFilterValue = '';
-    }
-
-    onNameFilterChange() {
-        console.log(this.nameFilterValue);
-    }
-
-    onSortChange() {
-        console.log(this.selectedSortOption);
     }
 }
 

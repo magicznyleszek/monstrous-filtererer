@@ -46,11 +46,11 @@ var HotelsCtrl = function () {
     _createClass(HotelsCtrl, null, [{
         key: 'initClass',
         value: function initClass() {
-            HotelsCtrl.$inject = ['$window', 'hotelsSortOptions'];
+            HotelsCtrl.$inject = ['$window', 'hotelsSortOptions', 'hotelsStarsOptions'];
         }
     }]);
 
-    function HotelsCtrl($window, hotelsSortOptions) {
+    function HotelsCtrl($window, hotelsSortOptions, hotelsStarsOptions) {
         _classCallCheck(this, HotelsCtrl);
 
         if (_typeof($window.hotelsData) === 'object') {
@@ -61,20 +61,12 @@ var HotelsCtrl = function () {
 
         this.selectedSortOption = hotelsSortOptions.options[0];
         this.sortOptions = hotelsSortOptions.options;
+
+        this.selectedStarsOption = hotelsStarsOptions.options[0];
+        this.starsOptions = hotelsStarsOptions.options;
+
         this.nameFilterValue = '';
     }
-
-    _createClass(HotelsCtrl, [{
-        key: 'onNameFilterChange',
-        value: function onNameFilterChange() {
-            console.log(this.nameFilterValue);
-        }
-    }, {
-        key: 'onSortChange',
-        value: function onSortChange() {
-            console.log(this.selectedSortOption);
-        }
-    }]);
 
     return HotelsCtrl;
 }();
@@ -117,6 +109,32 @@ angular.module('hotelsModule').constant('hotelsSortOptions', {
         label: 'Rating: highest first',
         property: 'UserRating',
         propertyReverse: true
+    }]
+});
+'use strict';
+
+angular.module('hotelsModule').constant('hotelsStarsOptions', {
+    options: [{
+        label: 'Any',
+        property: 'Stars'
+    }, {
+        label: '\u2605'.repeat(5),
+        property: 'Stars'
+    }, {
+        label: '\u2605'.repeat(4),
+        property: 'Stars'
+    }, {
+        label: '\u2605'.repeat(3),
+        property: 'Stars'
+    }, {
+        label: '\u2605'.repeat(2),
+        property: 'Stars'
+    }, {
+        label: '\u2605'.repeat(1),
+        property: 'Stars'
+    }, {
+        label: 'Zero',
+        property: 'Stars'
     }]
 });
 'use strict';
