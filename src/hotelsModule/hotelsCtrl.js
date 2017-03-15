@@ -4,12 +4,25 @@
 
 class HotelsCtrl {
     static initClass() {
-        HotelsCtrl.$inject = ['$window'];
+        HotelsCtrl.$inject = [
+            '$window',
+            'hotelsSortOptions'
+        ];
     }
 
-    constructor($window) {
-        this.list = [];
-        console.log($window.hotelsData);
+    constructor($window, hotelsSortOptions) {
+        if (typeof $window.hotelsData === 'object') {
+            this.list = $window.hotelsData.Establishments;
+        } else {
+            this.list = [];
+        }
+
+        this.selectedSortOption = hotelsSortOptions.options[0];
+        this.sortOptions = hotelsSortOptions.options;
+    }
+
+    onSortChange() {
+        console.log(this.selectedSortOption);
     }
 }
 

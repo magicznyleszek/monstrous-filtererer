@@ -32,6 +32,8 @@ angular.module('monstrousFilterererAppModule').config(['$interpolateProvider', '
 angular.module('hotelsModule', []);
 'use strict';
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -44,16 +46,29 @@ var HotelsCtrl = function () {
     _createClass(HotelsCtrl, null, [{
         key: 'initClass',
         value: function initClass() {
-            HotelsCtrl.$inject = ['$window'];
+            HotelsCtrl.$inject = ['$window', 'hotelsSortOptions'];
         }
     }]);
 
-    function HotelsCtrl($window) {
+    function HotelsCtrl($window, hotelsSortOptions) {
         _classCallCheck(this, HotelsCtrl);
 
-        this.list = [];
-        console.log($window.hotelsData);
+        if (_typeof($window.hotelsData) === 'object') {
+            this.list = $window.hotelsData.Establishments;
+        } else {
+            this.list = [];
+        }
+
+        this.selectedSortOption = hotelsSortOptions.options[0];
+        this.sortOptions = hotelsSortOptions.options;
     }
+
+    _createClass(HotelsCtrl, [{
+        key: 'onSortChange',
+        value: function onSortChange() {
+            console.log(this.selectedSortOption);
+        }
+    }]);
 
     return HotelsCtrl;
 }();
@@ -61,4 +76,75 @@ var HotelsCtrl = function () {
 HotelsCtrl.initClass();
 
 angular.module('hotelsModule').controller('hotelsCtrl', HotelsCtrl);
+'use strict';
+
+angular.module('hotelsModule').constant('hotelsSortOptions', {
+    options: [{
+        label: 'Distance: nearest first',
+        property: 'Distance',
+        propertyReverse: false
+    }, {
+        label: 'Distance: furthest first',
+        property: 'Distance',
+        propertyReverse: true
+    }, {
+        label: 'Stars: best first',
+        property: 'Stars',
+        propertyReverse: true
+    }, {
+        label: 'Stars: worst first',
+        property: 'Stars',
+        propertyReverse: false
+    }, {
+        label: 'Cost: cheapest first',
+        property: 'MinCost',
+        propertyReverse: false
+    }, {
+        label: 'Cost: most expensive first',
+        property: 'MinCost',
+        propertyReverse: true
+    }, {
+        label: 'Rating: lowest first',
+        property: 'UserRating',
+        propertyReverse: false
+    }, {
+        label: 'Rating: highest first',
+        property: 'UserRating',
+        propertyReverse: true
+    }]
+});
+'use strict';
+
+angular.module('hotelsModule').filter('humanizeDistance', function () {
+    return function (kilometers) {
+        if (kilometers < 1) {
+            var metres = kilometers.toFixed(3) * 1000;
+            return metres + ' m';
+        } else if (kilometers >= 1 && kilometers < 10) {
+            var smallKilometers = kilometers.toFixed(2);
+            return smallKilometers + ' km';
+        } else {
+            var bigKilometers = kilometers.toFixed(0);
+            return bigKilometers + ' km';
+        }
+    };
+});
+'use strict';
+
+angular.module('hotelsModule').filter('humanizeStars', function () {
+    return function (numberOfStars) {
+        return '\u2605'.repeat(numberOfStars) + '\u2606'.repeat(5 - numberOfStars);
+    };
+});
+'use strict';
+
+angular.module('hotelsModule').filter('humanizeVotesCount', function () {
+    return function (votes) {
+        if (votes === 1) {
+            return votes + ' vote';
+        } else {
+            return votes + ' votes';
+        }
+    };
+});
 })();
