@@ -1,0 +1,17 @@
+/*******************************************************************************
+app styles aggregation
+*******************************************************************************/
+
+/* variables palette */
+@import "variables.css";
+
+/* basics */
+@import "appSetup/reset.css";
+@import "appSetup/root.css";
+@import "appSetup/states.css";
+
+/* modules */
+@import "common/area.css";
+@import "common/card.css";
+@import "common/header.css";
+@import "common/text.css";

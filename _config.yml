@@ -1,0 +1,32 @@
+# description
+name: "monstrous-filtererer"
+description: "Angular filtering over big data"
+keywords: "angular filter"
+author: "Leszek Pietrzak"
+
+# address settings
+baseurl: "http://monstrous-filtererer.smutnyleszek.com"
+rootSiteUrl: "http://smutnyleszek.com"
+
+# site configuration
+safe: true
+quiet: false
+future: true
+encoding: utf-8
+markdown: kramdown
+kramdown:
+    auto_ids: false
+timezone: Europe/Warsaw
+
+# excludes
+exclude:
+    # disabled src, as it breaks --watch (see includes_dir below)
+    # - src
+    - test
+    - node_modules
+    - LICENSE
+    - README.md
+    - package.json
+
+# pull includes from other directory
+includes_dir: src
