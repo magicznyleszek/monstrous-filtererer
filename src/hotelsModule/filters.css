@@ -1,0 +1,62 @@
+/*******************************************************************************
+filters
+*******************************************************************************/
+
+:root {
+    --c-filters-txt: var(--c-charcoal);
+}
+
+[i-filters] {
+    display: block;
+    position: relative;
+    margin-top: calc(var(--s-leading) * 0.5);
+    margin-bottom: var(--s-leading);
+    border-radius: var(--s-global-br);
+    padding: calc(var(--s-leading) * 0.5);
+    width: 100%;
+    height: auto;
+    background-color: color(var(--c-filters-txt) alpha(5%));
+    color: var(--c-filters-txt);
+    line-height: var(--s-leading);
+}
+
+/*******************************************************************************
+filters input
+*******************************************************************************/
+
+[i-filters-input] {
+    display: inline-block;
+    border: 0;
+    border-radius: var(--s-global-br);
+    outline: 0;
+}
+
+/* placeholder colors */
+[i-filters-input]::-moz-placeholder {
+    color: color(var(--c-filters-txt) alpha(50%));
+}
+
+[i-filters-input]::-ms-input-placeholder {
+    color: color(var(--c-filters-txt) alpha(50%));
+}
+
+[i-filters-input]::-webkit-input-placeholder {
+    color: color(var(--c-filters-txt) alpha(50%));
+}
+
+/* default input state */
+[i-filters-input] {
+    background-color: transparent;
+}
+
+[i-filters-input]:not([disabled]):hover {
+    background-color: color(var(--c-filters-txt) alpha(4%));
+}
+
+[i-filters-input]:not([disabled]):active {
+    background-color: color(var(--c-filters-txt) alpha(8%));
+}
+
+[i-filters-input]:not([disabled]):focus {
+    background-color: var(--c-gold);
+}

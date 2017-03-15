@@ -13,5 +13,6 @@ app styles aggregation
 /* modules */
 @import "common/area.css";
 @import "common/card.css";
-@import "common/header.css";
 @import "common/text.css";
+@import "hotelsModule/filters.css";
+@import "hotelsModule/hotel.css";
