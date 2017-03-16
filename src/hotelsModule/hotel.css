@@ -17,8 +17,10 @@ hotel
 [i-hotel-price] {
     float: right;
     margin-left: calc(var(--s-leading) * 0.5);
-    font-size: 200%;
+    font-size: 150%;
     font-weight: 300;
+    font-family: var(--font-monospace);
+    line-height: calc(var(--s-leading) * 2);
 }
 
 [i-hotel-distance]::before {

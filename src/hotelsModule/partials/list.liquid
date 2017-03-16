@@ -9,7 +9,7 @@
         track by ::hotel.EstablishmentId"
     ng-click="hotels.chooseHotel(hotel)"
 >
-    <div i-hotel-price>&pound;<span ng-bind="::hotel.MinCost"></span></div>
+    <div i-hotel-price>&pound;<span ng-bind="::hotel.MinCost.toFixed(2)"></span></div>
 
     <div>
         <span i-hotel-title ng-bind="::hotel.Name"></span>
