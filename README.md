@@ -2,6 +2,8 @@
 
 # Monstrous Filtererer
 
+[Check it out live!](https://github.com/smutnyleszek/monstrous-filtererer)
+
 Features:
 
 - ES6 (with Babel)
@@ -10,6 +12,8 @@ Features:
 - MADCSS
 - Responsive design
 - Linters
+
+Note: I assumed that this would be a `PHP`-based website with Backend providing the data via `window.hotelsData`. For now Jekyll mocks it.
 
 Requirements:
 
