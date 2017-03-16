@@ -1,4 +1,4 @@
-![coverage-shield-badge-1](https://img.shields.io/badge/coverage-65.28%25-red.svg)
+![coverage-shield-badge-1](https://img.shields.io/badge/coverage-51.74%25-red.svg)
 
 # Monstrous Filtererer
 
