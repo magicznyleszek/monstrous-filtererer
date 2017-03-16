@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-// hotelsCtrl -- displays a list of hotels with fitlers
+// hotelsCtrl -- displays a filtered list of hotels
 // -----------------------------------------------------------------------------
 
 class HotelsCtrl {

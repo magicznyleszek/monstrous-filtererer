@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-// sorterModule for displaying a clickable list of search results.
+// sorterModule for displaying a select input for sorting hotels
 // -----------------------------------------------------------------------------
 
 angular.module('sorterModule', [

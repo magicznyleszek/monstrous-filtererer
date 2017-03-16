@@ -1,3 +1,7 @@
+// -----------------------------------------------------------------------------
+// hotelsStarsOptions is a list of stars select input options
+// -----------------------------------------------------------------------------
+
 angular.module('hotelsModule').constant('hotelsStarsOptions', {
     options: [
         {

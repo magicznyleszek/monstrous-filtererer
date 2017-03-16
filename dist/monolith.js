@@ -26,6 +26,13 @@ angular.module('monstrousFilterererAppModule').config(['$interpolateProvider', '
 'use strict';
 
 // -----------------------------------------------------------------------------
+// filtersModule for displaying a bunch of filters for hotels
+// -----------------------------------------------------------------------------
+
+angular.module('filtersModule', ['observableModule']);
+'use strict';
+
+// -----------------------------------------------------------------------------
 // hotelsModule for displaying a list of hotels, uses some modules for filtering
 // -----------------------------------------------------------------------------
 
@@ -39,7 +46,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 // -----------------------------------------------------------------------------
-// hotelsCtrl -- displays a list of hotels with fitlers
+// hotelsCtrl -- displays a filtered list of hotels
 // -----------------------------------------------------------------------------
 
 var HotelsCtrl = function () {
@@ -93,6 +100,10 @@ HotelsCtrl.initClass();
 angular.module('hotelsModule').controller('hotelsCtrl', HotelsCtrl);
 'use strict';
 
+// -----------------------------------------------------------------------------
+// hotelsStarsOptions is a list of stars select input options
+// -----------------------------------------------------------------------------
+
 angular.module('hotelsModule').constant('hotelsStarsOptions', {
     options: [{
         label: 'Any',
@@ -119,6 +130,10 @@ angular.module('hotelsModule').constant('hotelsStarsOptions', {
 });
 'use strict';
 
+// -----------------------------------------------------------------------------
+// humanizeDistance filter returns meters or kilometers with no decimal if huge
+// -----------------------------------------------------------------------------
+
 angular.module('hotelsModule').filter('humanizeDistance', function () {
     return function (kilometers) {
         if (kilometers < 1) {
@@ -135,12 +150,20 @@ angular.module('hotelsModule').filter('humanizeDistance', function () {
 });
 'use strict';
 
+// -----------------------------------------------------------------------------
+// humanizeStars filter returns a string of 5 stars with fulls and empties
+// -----------------------------------------------------------------------------
+
 angular.module('hotelsModule').filter('humanizeStars', function () {
     return function (numberOfStars) {
         return '\u2605'.repeat(numberOfStars) + '\u2606'.repeat(5 - numberOfStars);
     };
 });
 'use strict';
+
+// -----------------------------------------------------------------------------
+// humanizeVotesCount filter handles pluralization of votes number
+// -----------------------------------------------------------------------------
 
 angular.module('hotelsModule').filter('humanizeVotesCount', function () {
     return function (votes) {
@@ -336,7 +359,7 @@ angular.module('observableModule').factory('Observable', function () {
 'use strict';
 
 // -----------------------------------------------------------------------------
-// sorterModule for displaying a clickable list of search results.
+// sorterModule for displaying a select input for sorting hotels
 // -----------------------------------------------------------------------------
 
 angular.module('sorterModule', ['observableModule']);
@@ -430,6 +453,10 @@ SorterInterfaceService.initClass();
 
 angular.module('sorterModule').service('sorterInterface', SorterInterfaceService);
 'use strict';
+
+// -----------------------------------------------------------------------------
+// sorterOptions is a list of sorter select input options
+// -----------------------------------------------------------------------------
 
 angular.module('sorterModule').constant('sorterOptions', {
     options: [{

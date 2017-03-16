@@ -1,3 +1,7 @@
+// -----------------------------------------------------------------------------
+// humanizeDistance filter returns meters or kilometers with no decimal if huge
+// -----------------------------------------------------------------------------
+
 angular.module('hotelsModule').filter('humanizeDistance', () => {
     return function (kilometers) {
         if (kilometers < 1) {

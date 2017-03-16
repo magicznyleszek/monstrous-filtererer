@@ -1,3 +1,7 @@
+// -----------------------------------------------------------------------------
+// sorterOptions is a list of sorter select input options
+// -----------------------------------------------------------------------------
+
 angular.module('sorterModule').constant('sorterOptions', {
     options: [
         {
