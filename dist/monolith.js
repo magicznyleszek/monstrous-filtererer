@@ -52,6 +52,7 @@ var FiltersInterfaceService = function () {
         _classCallCheck(this, FiltersInterfaceService);
 
         this._hotelName = null;
+        this._minStars = null;
     }
 
     _createClass(FiltersInterfaceService, [{
@@ -61,14 +62,29 @@ var FiltersInterfaceService = function () {
             this._hotelName = hotelName.toLowerCase();
         }
     }, {
+        key: 'setMinimumStars',
+        value: function setMinimumStars(stars) {
+            console.log('setMinimumStars', stars);
+            this._minStars = Number.parseInt(stars, 10);
+        }
+    }, {
         key: 'matchHotel',
         value: function matchHotel(hotel) {
-            var matchesByName = true;
+            // check name
             if (!_.isEmpty(this._hotelName)) {
-                matchesByName = hotel.Name.toLowerCase().includes(this._hotelName);
+                if (!hotel.Name.toLowerCase().includes(this._hotelName)) {
+                    return false;
+                }
             }
 
-            return matchesByName;
+            // check minimum stars
+            if (_.isInteger(this._minStars)) {
+                if (Number.parseInt(hotel.Stars, 10) < this._minStars) {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }]);
 
@@ -85,38 +101,78 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 // -----------------------------------------------------------------------------
-// hotelNameCtrl -- handles a text input value for hotel name
+// filtersHotelNameCtrl -- handles a text input value for hotel name
 // -----------------------------------------------------------------------------
 
-var HotelNameController = function () {
-    _createClass(HotelNameController, null, [{
+var FiltersHotelNameController = function () {
+    _createClass(FiltersHotelNameController, null, [{
         key: 'initClass',
         value: function initClass() {
-            HotelNameController.$inject = ['filtersInterface'];
+            FiltersHotelNameController.$inject = ['filtersInterface'];
         }
     }]);
 
-    function HotelNameController(filtersInterface) {
-        _classCallCheck(this, HotelNameController);
+    function FiltersHotelNameController(filtersInterface) {
+        _classCallCheck(this, FiltersHotelNameController);
 
         this._filtersInterface = filtersInterface;
         this.value = '';
         this.dispatchValue();
     }
 
-    _createClass(HotelNameController, [{
+    _createClass(FiltersHotelNameController, [{
         key: 'dispatchValue',
         value: function dispatchValue() {
             this._filtersInterface.setHotelName(this.value);
         }
     }]);
 
-    return HotelNameController;
+    return FiltersHotelNameController;
 }();
 
-HotelNameController.initClass();
+FiltersHotelNameController.initClass();
 
-angular.module('filtersModule').controller('hotelNameCtrl', HotelNameController);
+angular.module('filtersModule').controller('filtersHotelNameCtrl', FiltersHotelNameController);
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+// -----------------------------------------------------------------------------
+// filtersStarsCtrl -- handles a select input value for starsOptions
+// -----------------------------------------------------------------------------
+
+var FiltersStarsController = function () {
+    _createClass(FiltersStarsController, null, [{
+        key: 'initClass',
+        value: function initClass() {
+            FiltersStarsController.$inject = ['starsOptions', 'filtersInterface'];
+        }
+    }]);
+
+    function FiltersStarsController(starsOptions, filtersInterface) {
+        _classCallCheck(this, FiltersStarsController);
+
+        this._filtersInterface = filtersInterface;
+        this.selectedOption = starsOptions.options[0];
+        this.options = starsOptions.options;
+        this.dispatchValue();
+    }
+
+    _createClass(FiltersStarsController, [{
+        key: 'dispatchValue',
+        value: function dispatchValue() {
+            this._filtersInterface.setMinimumStars(this.selectedOption.count);
+        }
+    }]);
+
+    return FiltersStarsController;
+}();
+
+FiltersStarsController.initClass();
+
+angular.module('filtersModule').controller('filtersStarsCtrl', FiltersStarsController);
 'use strict';
 
 // -----------------------------------------------------------------------------
@@ -125,20 +181,23 @@ angular.module('filtersModule').controller('hotelNameCtrl', HotelNameController)
 
 angular.module('filtersModule').constant('starsOptions', {
     options: [{
+        label: 'Any',
+        count: 0
+    }, {
         label: '\u2605'.repeat(1),
-        property: 'Stars'
+        count: 1
     }, {
         label: '\u2605'.repeat(2),
-        property: 'Stars'
+        count: 2
     }, {
         label: '\u2605'.repeat(3),
-        property: 'Stars'
+        count: 3
     }, {
         label: '\u2605'.repeat(4),
-        property: 'Stars'
+        count: 4
     }, {
         label: '\u2605'.repeat(5),
-        property: 'Stars'
+        count: 5
     }]
 });
 'use strict';
@@ -467,12 +526,12 @@ var SorterController = function () {
         this._sorterInterface = sorterInterface;
         this.selectedOption = sorterOptions.options[0];
         this.options = sorterOptions.options;
-        this.setCurrentSort();
+        this.dispatchValue();
     }
 
     _createClass(SorterController, [{
-        key: 'setCurrentSort',
-        value: function setCurrentSort() {
+        key: 'dispatchValue',
+        value: function dispatchValue() {
             this._sorterInterface.setSort(this.selectedOption);
         }
     }]);

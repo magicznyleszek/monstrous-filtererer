@@ -1,10 +1,10 @@
 // -----------------------------------------------------------------------------
-// hotelNameCtrl -- handles a text input value for hotel name
+// filtersHotelNameCtrl -- handles a text input value for hotel name
 // -----------------------------------------------------------------------------
 
-class HotelNameController {
+class FiltersHotelNameController {
     static initClass() {
-        HotelNameController.$inject = [
+        FiltersHotelNameController.$inject = [
             'filtersInterface'
         ];
     }
@@ -22,9 +22,9 @@ class HotelNameController {
     }
 }
 
-HotelNameController.initClass();
+FiltersHotelNameController.initClass();
 
 angular.module('filtersModule').controller(
-    'hotelNameCtrl',
-    HotelNameController
+    'filtersHotelNameCtrl',
+    FiltersHotelNameController
 );

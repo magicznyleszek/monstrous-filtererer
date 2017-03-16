@@ -5,24 +5,28 @@
 angular.module('filtersModule').constant('starsOptions', {
     options: [
         {
+            label: 'Any',
+            count: 0
+        },
+        {
             label: '\u2605'.repeat(1),
-            property: 'Stars'
+            count: 1
         },
         {
             label: '\u2605'.repeat(2),
-            property: 'Stars'
+            count: 2
         },
         {
             label: '\u2605'.repeat(3),
-            property: 'Stars'
+            count: 3
         },
         {
             label: '\u2605'.repeat(4),
-            property: 'Stars'
+            count: 4
         },
         {
             label: '\u2605'.repeat(5),
-            property: 'Stars'
+            count: 5
         }
     ]
 });

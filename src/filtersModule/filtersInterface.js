@@ -9,6 +9,7 @@ class FiltersInterfaceService {
 
     constructor() {
         this._hotelName = null;
+        this._minStars = null;
     }
 
     setHotelName(hotelName) {
@@ -16,13 +17,27 @@ class FiltersInterfaceService {
         this._hotelName = hotelName.toLowerCase();
     }
 
+    setMinimumStars(stars) {
+        console.log('setMinimumStars', stars);
+        this._minStars = Number.parseInt(stars, 10);
+    }
+
     matchHotel(hotel) {
-        let matchesByName = true;
+        // check name
         if (!_.isEmpty(this._hotelName)) {
-            matchesByName = hotel.Name.toLowerCase().includes(this._hotelName);
+            if (!hotel.Name.toLowerCase().includes(this._hotelName)) {
+                return false;
+            }
         }
 
-        return matchesByName;
+        // check minimum stars
+        if (_.isInteger(this._minStars)) {
+            if (Number.parseInt(hotel.Stars, 10) < this._minStars) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
 

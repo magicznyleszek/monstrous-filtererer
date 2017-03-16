@@ -7,6 +7,6 @@
         name="hotelsSorter"
         ng-model="sorter.selectedOption"
         ng-options="option.label for option in sorter.options"
-        ng-change="sorter.setCurrentSort()"
+        ng-change="sorter.dispatchValue()"
     ></select>
 </div>

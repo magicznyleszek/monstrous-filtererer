@@ -17,10 +17,10 @@ class SorterController {
         this._sorterInterface = sorterInterface;
         this.selectedOption = sorterOptions.options[0];
         this.options = sorterOptions.options;
-        this.setCurrentSort();
+        this.dispatchValue();
     }
 
-    setCurrentSort() {
+    dispatchValue() {
         this._sorterInterface.setSort(this.selectedOption);
     }
 }
