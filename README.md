@@ -34,3 +34,19 @@ What you want is to basically have two terminals:
 
 1. `npm run serve` -- this is providing the [127.0.0.1:4000](http://127.0.0.1:4000/) "server" and watching changes on Jekyll
 2. `npm run watch` -- this is watching all source files and producing dist ones
+
+## TODO
+
+- write test for modules
+- implement some pretty inputs (range, double-range, select)
+- stars filter should be a range filter
+- paginate results
+- store filters and sorter value in localStorage
+- keep filters and sorter values as routing parameters
+- name filter should use fuzzy search algorithm
+- some smart way of displaying recommended hotels based on:
+    - stars
+    - rating (weighted by the number of votes)
+    - distance
+    - cost
+- display the decimal parts of prices nicer
