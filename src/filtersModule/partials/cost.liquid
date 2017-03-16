@@ -1,4 +1,37 @@
-<div i-filter>
-    <input type="range" name="costMinimum" min="0" max="50000">
-    <output for="costMinimum" onforminput="value = costMinimum.valueAsNumber;"></output>
+<div i-filter ng-controller="filtersCostCtrl as cost">
+    <label i-filter-label>Cost:</label>
+
+    <form>
+        <label i-filter-label for="filtersCostMin">from</label>
+
+        <input
+            type="range"
+            id="filtersCostMin"
+            name="filtersCostMin"
+            min="[[::cost.limitMin]]"
+            max="[[::cost.limitMax]]"
+            step="1"
+            ng-model="cost.valueMin"
+            ng-change="cost.dispatchValueDebounced()"
+        >
+
+        <output ng-bind="cost.valueMin"></output>
+    </form>
+
+    <form>
+        <label i-filter-label for="filtersCostMax">to</label>
+
+        <input
+            type="range"
+            id="filtersCostMax"
+            name="filtersCostMax"
+            min="[[::cost.limitMin]]"
+            max="[[::cost.limitMax]]"
+            step="1"
+            ng-model="cost.valueMax"
+            ng-change="cost.dispatchValueDebounced()"
+        >
+
+        <output ng-bind="cost.valueMax"></output>
+    </form>
 </div>

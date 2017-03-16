@@ -1,10 +1,10 @@
 <div i-filter ng-controller="filtersStarsCtrl as stars">
-    <label i-filter-label for="filterStars">Minimum stars:</label>
+    <label i-filter-label for="filtersStars">Minimum stars:</label>
 
     <select
         i-filter-select
-        id="filterStars"
-        name="filterStars"
+        id="filtersStars"
+        name="filtersStars"
         ng-model="stars.selectedOption"
         ng-options="option.label for option in stars.options"
         ng-change="stars.dispatchValue()"

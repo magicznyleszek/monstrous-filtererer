@@ -1,22 +1,22 @@
 // -----------------------------------------------------------------------------
-// filtersStarsCtrl -- handles a select input value for starsOptions
+// filtersStarsCtrl -- handles a select input value for filtersStarsOptions
 // -----------------------------------------------------------------------------
 
 class FiltersStarsController {
     static initClass() {
         FiltersStarsController.$inject = [
-            'starsOptions',
+            'filtersStarsOptions',
             'filtersInterface'
         ];
     }
 
     constructor(
-        starsOptions,
+        filtersStarsOptions,
         filtersInterface
     ) {
         this._filtersInterface = filtersInterface;
-        this.selectedOption = starsOptions.options[0];
-        this.options = starsOptions.options;
+        this.selectedOption = filtersStarsOptions.options[0];
+        this.options = filtersStarsOptions.options;
         this.dispatchValue();
     }
 

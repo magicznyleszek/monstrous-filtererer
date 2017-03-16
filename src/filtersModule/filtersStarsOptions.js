@@ -2,7 +2,7 @@
 // starsOptions is a list of stars select input options
 // -----------------------------------------------------------------------------
 
-angular.module('filtersModule').constant('starsOptions', {
+angular.module('filtersModule').constant('filtersStarsOptions', {
     options: [
         {
             label: 'Any',

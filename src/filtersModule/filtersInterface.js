@@ -3,13 +3,11 @@
 // -----------------------------------------------------------------------------
 
 class FiltersInterfaceService {
-    static initClass() {
-        FiltersInterfaceService.$inject = [];
-    }
-
     constructor() {
         this._hotelName = null;
         this._minStars = null;
+        this._costMin = null;
+        this._costMax = null;
     }
 
     setHotelName(hotelName) {
@@ -18,8 +16,13 @@ class FiltersInterfaceService {
     }
 
     setMinimumStars(stars) {
-        console.log('setMinimumStars', stars);
         this._minStars = Number.parseInt(stars, 10);
+    }
+
+    setCostRange(minimum, maximum) {
+        console.log('setCostRange', minimum, maximum);
+        this._costMin = Number.parseInt(minimum, 10);
+        this._costMax = Number.parseInt(maximum, 10);
     }
 
     matchHotel(hotel) {
@@ -37,11 +40,17 @@ class FiltersInterfaceService {
             }
         }
 
+        // check if cost meets the range
+        if (_.isInteger(this._costMin) && _.isInteger(this._costMax)) {
+            const costNumber = Number.parseFloat(hotel.MinCost);
+            if (costNumber > this._costMax || costNumber < this._costMin) {
+                return false;
+            }
+        }
+
         return true;
     }
 }
-
-FiltersInterfaceService.initClass();
 
 angular.module('filtersModule').service(
     'filtersInterface',

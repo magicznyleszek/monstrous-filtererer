@@ -32,68 +32,82 @@ angular.module('monstrousFilterererAppModule').config(['$interpolateProvider', '
 angular.module('filtersModule', ['observableModule']);
 'use strict';
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 // -----------------------------------------------------------------------------
-// filtersInterface keeps current filters value
+// filtersCostCtrl -- handles a text input value for hotel name
 // -----------------------------------------------------------------------------
 
-var FiltersInterfaceService = function () {
-    _createClass(FiltersInterfaceService, null, [{
+var FiltersCostController = function () {
+    _createClass(FiltersCostController, null, [{
         key: 'initClass',
         value: function initClass() {
-            FiltersInterfaceService.$inject = [];
+            FiltersCostController.debounceTime = 500;
+
+            FiltersCostController.$inject = ['$window', '$scope', 'filtersInterface'];
         }
     }]);
 
-    function FiltersInterfaceService() {
-        _classCallCheck(this, FiltersInterfaceService);
+    function FiltersCostController($window, $scope, filtersInterface) {
+        var _this = this;
 
-        this._hotelName = null;
-        this._minStars = null;
+        _classCallCheck(this, FiltersCostController);
+
+        this._$window = $window;
+        this._filtersInterface = filtersInterface;
+
+        this.limitMin = 0;
+        this.limitMax = 10000;
+        this._setLimitsFromBackendData();
+
+        // start with whole range
+        this.valueMin = this.limitMin;
+        this.valueMax = this.limitMax;
+        this._dispatchValue();
+
+        this.dispatchValueDebounced = _.debounce(
+        // lodash works outside angular digest cycle, so we need $apply
+        function () {
+            $scope.$apply(_this._dispatchValue.bind(_this));
+        }, FiltersCostController.debounceTime);
     }
 
-    _createClass(FiltersInterfaceService, [{
-        key: 'setHotelName',
-        value: function setHotelName(hotelName) {
-            // we want to keep the name lowercased for easier comparison
-            this._hotelName = hotelName.toLowerCase();
+    _createClass(FiltersCostController, [{
+        key: '_dispatchValue',
+        value: function _dispatchValue() {
+            this._filtersInterface.setCostRange(this.valueMin, this.valueMax);
         }
     }, {
-        key: 'setMinimumStars',
-        value: function setMinimumStars(stars) {
-            console.log('setMinimumStars', stars);
-            this._minStars = Number.parseInt(stars, 10);
-        }
-    }, {
-        key: 'matchHotel',
-        value: function matchHotel(hotel) {
-            // check name
-            if (!_.isEmpty(this._hotelName)) {
-                if (!hotel.Name.toLowerCase().includes(this._hotelName)) {
-                    return false;
-                }
-            }
+        key: '_setLimitsFromBackendData',
+        value: function _setLimitsFromBackendData() {
+            if (_typeof(this._$window.hotelsData) === 'object') {
+                var lowestCost = Infinity;
+                var highestCost = 0;
 
-            // check minimum stars
-            if (_.isInteger(this._minStars)) {
-                if (Number.parseInt(hotel.Stars, 10) < this._minStars) {
-                    return false;
-                }
-            }
+                this._$window.hotelsData.Establishments.forEach(function (hotel) {
+                    if (hotel.MinCost < lowestCost) {
+                        lowestCost = Math.floor(hotel.MinCost);
+                    } else if (hotel.MinCost > highestCost) {
+                        highestCost = Math.ceil(hotel.MinCost);
+                    }
+                });
 
-            return true;
+                this.limitMin = lowestCost;
+                this.limitMax = highestCost;
+            }
         }
     }]);
 
-    return FiltersInterfaceService;
+    return FiltersCostController;
 }();
 
-FiltersInterfaceService.initClass();
+FiltersCostController.initClass();
 
-angular.module('filtersModule').service('filtersInterface', FiltersInterfaceService);
+angular.module('filtersModule').controller('filtersCostCtrl', FiltersCostController);
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -140,23 +154,94 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 // -----------------------------------------------------------------------------
-// filtersStarsCtrl -- handles a select input value for starsOptions
+// filtersInterface keeps current filters value
+// -----------------------------------------------------------------------------
+
+var FiltersInterfaceService = function () {
+    function FiltersInterfaceService() {
+        _classCallCheck(this, FiltersInterfaceService);
+
+        this._hotelName = null;
+        this._minStars = null;
+        this._costMin = null;
+        this._costMax = null;
+    }
+
+    _createClass(FiltersInterfaceService, [{
+        key: 'setHotelName',
+        value: function setHotelName(hotelName) {
+            // we want to keep the name lowercased for easier comparison
+            this._hotelName = hotelName.toLowerCase();
+        }
+    }, {
+        key: 'setMinimumStars',
+        value: function setMinimumStars(stars) {
+            this._minStars = Number.parseInt(stars, 10);
+        }
+    }, {
+        key: 'setCostRange',
+        value: function setCostRange(minimum, maximum) {
+            console.log('setCostRange', minimum, maximum);
+            this._costMin = Number.parseInt(minimum, 10);
+            this._costMax = Number.parseInt(maximum, 10);
+        }
+    }, {
+        key: 'matchHotel',
+        value: function matchHotel(hotel) {
+            // check name
+            if (!_.isEmpty(this._hotelName)) {
+                if (!hotel.Name.toLowerCase().includes(this._hotelName)) {
+                    return false;
+                }
+            }
+
+            // check minimum stars
+            if (_.isInteger(this._minStars)) {
+                if (Number.parseInt(hotel.Stars, 10) < this._minStars) {
+                    return false;
+                }
+            }
+
+            // check if cost meets the range
+            if (_.isInteger(this._costMin) && _.isInteger(this._costMax)) {
+                var costNumber = Number.parseFloat(hotel.MinCost);
+                if (costNumber > this._costMax || costNumber < this._costMin) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    }]);
+
+    return FiltersInterfaceService;
+}();
+
+angular.module('filtersModule').service('filtersInterface', FiltersInterfaceService);
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+// -----------------------------------------------------------------------------
+// filtersStarsCtrl -- handles a select input value for filtersStarsOptions
 // -----------------------------------------------------------------------------
 
 var FiltersStarsController = function () {
     _createClass(FiltersStarsController, null, [{
         key: 'initClass',
         value: function initClass() {
-            FiltersStarsController.$inject = ['starsOptions', 'filtersInterface'];
+            FiltersStarsController.$inject = ['filtersStarsOptions', 'filtersInterface'];
         }
     }]);
 
-    function FiltersStarsController(starsOptions, filtersInterface) {
+    function FiltersStarsController(filtersStarsOptions, filtersInterface) {
         _classCallCheck(this, FiltersStarsController);
 
         this._filtersInterface = filtersInterface;
-        this.selectedOption = starsOptions.options[0];
-        this.options = starsOptions.options;
+        this.selectedOption = filtersStarsOptions.options[0];
+        this.options = filtersStarsOptions.options;
         this.dispatchValue();
     }
 
@@ -179,7 +264,7 @@ angular.module('filtersModule').controller('filtersStarsCtrl', FiltersStarsContr
 // starsOptions is a list of stars select input options
 // -----------------------------------------------------------------------------
 
-angular.module('filtersModule').constant('starsOptions', {
+angular.module('filtersModule').constant('filtersStarsOptions', {
     options: [{
         label: 'Any',
         count: 0
