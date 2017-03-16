@@ -35,17 +35,4 @@
     <div>TrpRating</div>
     <div>UserRating</div>
     <div>MinCost</div>
-
-    <!-- sorting -->
-    <div i-filter>
-        <label i-filter-label for="hotelsSort">Sort by:</label>
-
-        <select
-            i-filter-select
-            id="hotelsSort"
-            name="hotelsSort"
-            ng-model="hotels.selectedSortOption"
-            ng-options="option.label for option in hotels.sortOptions"
-        ></select>
-    </div>
 </div>

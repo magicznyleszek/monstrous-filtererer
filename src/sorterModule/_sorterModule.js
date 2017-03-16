@@ -1,7 +1,7 @@
 // -----------------------------------------------------------------------------
-// hotelsModule for displaying a list of hotels, uses some modules for filtering
+// sorterModule for displaying a clickable list of search results.
 // -----------------------------------------------------------------------------
 
-angular.module('hotelsModule', [
-    'sorterModule'
+angular.module('sorterModule', [
+    'observableModule'
 ]);

@@ -5,7 +5,7 @@
     i-hotel
     ng-repeat="
         hotel in hotels.list
-        | orderBy: hotels.selectedSortOption.property : hotels.selectedSortOption.propertyReverse
+        | orderBy: hotels.currentSort.property : hotels.currentSort.propertyReverse
         | filter: {Name: hotels.nameFilterValue}
         as filteredHotelsList
         track by hotel.EstablishmentId"

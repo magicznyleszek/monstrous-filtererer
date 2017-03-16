@@ -2,6 +2,8 @@
     <script>
         window.hotelsData = {{ site.data.hotels | jsonify }};
     </script>
+
+    {% include sorterModule/sorter.liquid %}
     {% include hotelsModule/hotels.liquid %}
 
     <footer i-text="centered">

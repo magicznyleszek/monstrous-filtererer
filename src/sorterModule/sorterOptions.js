@@ -1,4 +1,4 @@
-angular.module('hotelsModule').constant('hotelsSortOptions', {
+angular.module('sorterModule').constant('sorterOptions', {
     options: [
         {
             label: 'Distance: nearest first',

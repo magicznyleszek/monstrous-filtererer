@@ -6,29 +6,42 @@ class HotelsCtrl {
     static initClass() {
         HotelsCtrl.$inject = [
             '$window',
-            'hotelsSortOptions',
+            'sorterInterface',
             'hotelsStarsOptions'
         ];
     }
 
     constructor(
         $window,
-        hotelsSortOptions,
+        sorterInterface,
         hotelsStarsOptions
     ) {
-        if (typeof $window.hotelsData === 'object') {
-            this.list = $window.hotelsData.Establishments;
-        } else {
-            this.list = [];
-        }
+        this._$window = $window;
+        this._sorterInterface = sorterInterface;
 
-        this.selectedSortOption = hotelsSortOptions.options[0];
-        this.sortOptions = hotelsSortOptions.options;
+        this.list = this._getListFromBackendData();
+
+        this.currentSort = null;
+        this._refreshSort();
 
         this.selectedStarsOption = hotelsStarsOptions.options[0];
         this.starsOptions = hotelsStarsOptions.options;
 
         this.nameFilterValue = '';
+
+        this._sorterInterface.registerSortObserver(this._refreshSort.bind(this));
+    }
+
+    _getListFromBackendData() {
+        if (typeof this._$window.hotelsData === 'object') {
+            return this._$window.hotelsData.Establishments;
+        } else {
+            return [];
+        }
+    }
+
+    _refreshSort() {
+        this.currentSort = this._sorterInterface.getSort();
     }
 }
 
