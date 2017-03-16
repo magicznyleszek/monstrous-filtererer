@@ -32,11 +32,122 @@ angular.module('monstrousFilterererAppModule').config(['$interpolateProvider', '
 angular.module('filtersModule', ['observableModule']);
 'use strict';
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+// -----------------------------------------------------------------------------
+// filtersInterface keeps current filters value
+// -----------------------------------------------------------------------------
+
+var FiltersInterfaceService = function () {
+    _createClass(FiltersInterfaceService, null, [{
+        key: 'initClass',
+        value: function initClass() {
+            FiltersInterfaceService.$inject = [];
+        }
+    }]);
+
+    function FiltersInterfaceService() {
+        _classCallCheck(this, FiltersInterfaceService);
+
+        this._hotelName = null;
+    }
+
+    _createClass(FiltersInterfaceService, [{
+        key: 'setHotelName',
+        value: function setHotelName(hotelName) {
+            // we want to keep the name lowercased for easier comparison
+            this._hotelName = hotelName.toLowerCase();
+        }
+    }, {
+        key: 'matchHotel',
+        value: function matchHotel(hotel) {
+            var matchesByName = true;
+            if (!_.isEmpty(this._hotelName)) {
+                matchesByName = hotel.Name.toLowerCase().includes(this._hotelName);
+            }
+
+            return matchesByName;
+        }
+    }]);
+
+    return FiltersInterfaceService;
+}();
+
+FiltersInterfaceService.initClass();
+
+angular.module('filtersModule').service('filtersInterface', FiltersInterfaceService);
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+// -----------------------------------------------------------------------------
+// hotelNameCtrl -- handles a text input value for hotel name
+// -----------------------------------------------------------------------------
+
+var HotelNameController = function () {
+    _createClass(HotelNameController, null, [{
+        key: 'initClass',
+        value: function initClass() {
+            HotelNameController.$inject = ['filtersInterface'];
+        }
+    }]);
+
+    function HotelNameController(filtersInterface) {
+        _classCallCheck(this, HotelNameController);
+
+        this._filtersInterface = filtersInterface;
+        this.value = '';
+        this.dispatchValue();
+    }
+
+    _createClass(HotelNameController, [{
+        key: 'dispatchValue',
+        value: function dispatchValue() {
+            this._filtersInterface.setHotelName(this.value);
+        }
+    }]);
+
+    return HotelNameController;
+}();
+
+HotelNameController.initClass();
+
+angular.module('filtersModule').controller('hotelNameCtrl', HotelNameController);
+'use strict';
+
+// -----------------------------------------------------------------------------
+// starsOptions is a list of stars select input options
+// -----------------------------------------------------------------------------
+
+angular.module('filtersModule').constant('starsOptions', {
+    options: [{
+        label: '\u2605'.repeat(1),
+        property: 'Stars'
+    }, {
+        label: '\u2605'.repeat(2),
+        property: 'Stars'
+    }, {
+        label: '\u2605'.repeat(3),
+        property: 'Stars'
+    }, {
+        label: '\u2605'.repeat(4),
+        property: 'Stars'
+    }, {
+        label: '\u2605'.repeat(5),
+        property: 'Stars'
+    }]
+});
+'use strict';
+
 // -----------------------------------------------------------------------------
 // hotelsModule for displaying a list of hotels, uses some modules for filtering
 // -----------------------------------------------------------------------------
 
-angular.module('hotelsModule', ['sorterModule']);
+angular.module('hotelsModule', ['filtersModule', 'sorterModule']);
 'use strict';
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
@@ -49,34 +160,33 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 // hotelsCtrl -- displays a filtered list of hotels
 // -----------------------------------------------------------------------------
 
-var HotelsCtrl = function () {
-    _createClass(HotelsCtrl, null, [{
+var HotelsController = function () {
+    _createClass(HotelsController, null, [{
         key: 'initClass',
         value: function initClass() {
-            HotelsCtrl.$inject = ['$window', 'sorterInterface', 'hotelsStarsOptions'];
+            HotelsController.$inject = ['$window', 'sorterInterface', 'filtersInterface'];
         }
     }]);
 
-    function HotelsCtrl($window, sorterInterface, hotelsStarsOptions) {
-        _classCallCheck(this, HotelsCtrl);
+    function HotelsController($window, sorterInterface, filtersInterface) {
+        _classCallCheck(this, HotelsController);
 
         this._$window = $window;
         this._sorterInterface = sorterInterface;
 
+        // THE list
         this.list = this._getListFromBackendData();
 
+        // sorter handling
         this.currentSort = null;
         this._refreshSort();
-
-        this.selectedStarsOption = hotelsStarsOptions.options[0];
-        this.starsOptions = hotelsStarsOptions.options;
-
-        this.nameFilterValue = '';
-
         this._sorterInterface.registerSortObserver(this._refreshSort.bind(this));
+
+        // use the function from interface
+        this.matchHotel = filtersInterface.matchHotel.bind(filtersInterface);
     }
 
-    _createClass(HotelsCtrl, [{
+    _createClass(HotelsController, [{
         key: '_getListFromBackendData',
         value: function _getListFromBackendData() {
             if (_typeof(this._$window.hotelsData) === 'object') {
@@ -92,42 +202,12 @@ var HotelsCtrl = function () {
         }
     }]);
 
-    return HotelsCtrl;
+    return HotelsController;
 }();
 
-HotelsCtrl.initClass();
+HotelsController.initClass();
 
-angular.module('hotelsModule').controller('hotelsCtrl', HotelsCtrl);
-'use strict';
-
-// -----------------------------------------------------------------------------
-// hotelsStarsOptions is a list of stars select input options
-// -----------------------------------------------------------------------------
-
-angular.module('hotelsModule').constant('hotelsStarsOptions', {
-    options: [{
-        label: 'Any',
-        property: 'Stars'
-    }, {
-        label: '\u2605'.repeat(5),
-        property: 'Stars'
-    }, {
-        label: '\u2605'.repeat(4),
-        property: 'Stars'
-    }, {
-        label: '\u2605'.repeat(3),
-        property: 'Stars'
-    }, {
-        label: '\u2605'.repeat(2),
-        property: 'Stars'
-    }, {
-        label: '\u2605'.repeat(1),
-        property: 'Stars'
-    }, {
-        label: 'Zero',
-        property: 'Stars'
-    }]
-});
+angular.module('hotelsModule').controller('hotelsCtrl', HotelsController);
 'use strict';
 
 // -----------------------------------------------------------------------------
@@ -373,16 +453,16 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 // sorterCtrl -- handles a select input value for sorterOptions
 // -----------------------------------------------------------------------------
 
-var SorterCtrl = function () {
-    _createClass(SorterCtrl, null, [{
+var SorterController = function () {
+    _createClass(SorterController, null, [{
         key: 'initClass',
         value: function initClass() {
-            SorterCtrl.$inject = ['sorterOptions', 'sorterInterface'];
+            SorterController.$inject = ['sorterOptions', 'sorterInterface'];
         }
     }]);
 
-    function SorterCtrl(sorterOptions, sorterInterface) {
-        _classCallCheck(this, SorterCtrl);
+    function SorterController(sorterOptions, sorterInterface) {
+        _classCallCheck(this, SorterController);
 
         this._sorterInterface = sorterInterface;
         this.selectedOption = sorterOptions.options[0];
@@ -390,19 +470,19 @@ var SorterCtrl = function () {
         this.setCurrentSort();
     }
 
-    _createClass(SorterCtrl, [{
+    _createClass(SorterController, [{
         key: 'setCurrentSort',
         value: function setCurrentSort() {
             this._sorterInterface.setSort(this.selectedOption);
         }
     }]);
 
-    return SorterCtrl;
+    return SorterController;
 }();
 
-SorterCtrl.initClass();
+SorterController.initClass();
 
-angular.module('sorterModule').controller('sorterCtrl', SorterCtrl);
+angular.module('sorterModule').controller('sorterCtrl', SorterController);
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();

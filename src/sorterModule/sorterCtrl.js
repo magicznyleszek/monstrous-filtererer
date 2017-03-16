@@ -2,9 +2,9 @@
 // sorterCtrl -- handles a select input value for sorterOptions
 // -----------------------------------------------------------------------------
 
-class SorterCtrl {
+class SorterController {
     static initClass() {
-        SorterCtrl.$inject = [
+        SorterController.$inject = [
             'sorterOptions',
             'sorterInterface'
         ];
@@ -25,6 +25,6 @@ class SorterCtrl {
     }
 }
 
-SorterCtrl.initClass();
+SorterController.initClass();
 
-angular.module('sorterModule').controller('sorterCtrl', SorterCtrl);
+angular.module('sorterModule').controller('sorterCtrl', SorterController);

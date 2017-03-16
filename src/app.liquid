@@ -3,7 +3,13 @@
         window.hotelsData = {{ site.data.hotels | jsonify }};
     </script>
 
+    <div ng-show="::false" i-card i-text="centered">
+        Loading&hellip;
+    </div>
+
+    {% include filtersModule/filters.liquid %}
     {% include sorterModule/sorter.liquid %}
+
     {% include hotelsModule/hotels.liquid %}
 
     <footer i-text="centered">

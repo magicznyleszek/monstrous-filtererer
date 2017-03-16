@@ -1,8 +1,7 @@
 // -----------------------------------------------------------------------------
-// hotelsModule for displaying a list of hotels, uses some modules for filtering
+// filtersModule for displaying a bunch of filters for hotels
 // -----------------------------------------------------------------------------
 
-angular.module('hotelsModule', [
-    'filtersModule',
-    'sorterModule'
+angular.module('filtersModule', [
+    'observableModule'
 ]);

@@ -1,12 +1,10 @@
-<div i-resultsCount>Results: <span ng-bind="filteredHotelsList.length"></span></div>
-
 <div
     i-card
     i-hotel
     ng-repeat="
         hotel in hotels.list
         | orderBy: hotels.currentSort.property : hotels.currentSort.propertyReverse
-        | filter: {Name: hotels.nameFilterValue}
+        | filter: hotels.matchHotel
         as filteredHotelsList
         track by hotel.EstablishmentId"
 >

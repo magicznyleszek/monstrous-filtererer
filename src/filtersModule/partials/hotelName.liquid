@@ -1,0 +1,13 @@
+<div i-filter ng-controller="hotelNameCtrl as hotelName">
+    <label i-filter-label for="hotelName">Name:</label>
+
+    <input
+        type="text"
+        id="hotelName"
+        name="hotelName"
+        i-filter-textInput
+        placeholder="Place name"
+        ng-model="hotelName.value"
+        ng-change="hotelName.dispatchValue()"
+    >
+</div>

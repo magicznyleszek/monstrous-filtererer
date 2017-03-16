@@ -1,23 +1,11 @@
 // -----------------------------------------------------------------------------
-// hotelsStarsOptions is a list of stars select input options
+// starsOptions is a list of stars select input options
 // -----------------------------------------------------------------------------
 
-angular.module('hotelsModule').constant('hotelsStarsOptions', {
+angular.module('filtersModule').constant('starsOptions', {
     options: [
         {
-            label: 'Any',
-            property: 'Stars'
-        },
-        {
-            label: '\u2605'.repeat(5),
-            property: 'Stars'
-        },
-        {
-            label: '\u2605'.repeat(4),
-            property: 'Stars'
-        },
-        {
-            label: '\u2605'.repeat(3),
+            label: '\u2605'.repeat(1),
             property: 'Stars'
         },
         {
@@ -25,11 +13,15 @@ angular.module('hotelsModule').constant('hotelsStarsOptions', {
             property: 'Stars'
         },
         {
-            label: '\u2605'.repeat(1),
+            label: '\u2605'.repeat(3),
             property: 'Stars'
         },
         {
-            label: 'Zero',
+            label: '\u2605'.repeat(4),
+            property: 'Stars'
+        },
+        {
+            label: '\u2605'.repeat(5),
             property: 'Stars'
         }
     ]

@@ -2,34 +2,33 @@
 // hotelsCtrl -- displays a filtered list of hotels
 // -----------------------------------------------------------------------------
 
-class HotelsCtrl {
+class HotelsController {
     static initClass() {
-        HotelsCtrl.$inject = [
+        HotelsController.$inject = [
             '$window',
             'sorterInterface',
-            'hotelsStarsOptions'
+            'filtersInterface'
         ];
     }
 
     constructor(
         $window,
         sorterInterface,
-        hotelsStarsOptions
+        filtersInterface
     ) {
         this._$window = $window;
         this._sorterInterface = sorterInterface;
 
+        // THE list
         this.list = this._getListFromBackendData();
 
+        // sorter handling
         this.currentSort = null;
         this._refreshSort();
-
-        this.selectedStarsOption = hotelsStarsOptions.options[0];
-        this.starsOptions = hotelsStarsOptions.options;
-
-        this.nameFilterValue = '';
-
         this._sorterInterface.registerSortObserver(this._refreshSort.bind(this));
+
+        // use the function from interface
+        this.matchHotel = filtersInterface.matchHotel.bind(filtersInterface);
     }
 
     _getListFromBackendData() {
@@ -45,6 +44,6 @@ class HotelsCtrl {
     }
 }
 
-HotelsCtrl.initClass();
+HotelsController.initClass();
 
-angular.module('hotelsModule').controller('hotelsCtrl', HotelsCtrl);
+angular.module('hotelsModule').controller('hotelsCtrl', HotelsController);
