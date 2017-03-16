@@ -1,16 +1,21 @@
-<div i-filter ng-controller="filtersRatingCtrl as rating">
-    <label i-filter-label for="filtersRating">Minimum rating:</label>
+<tr i-filter ng-controller="filtersRatingCtrl as rating">
+    <th i-filter-name>
+        <label for="filtersRating">Minimum rating:</label>
+    </th>
 
-    <input
-        type="range"
-        id="filtersRating"
-        name="filtersRating"
-        min="[[::rating.limitMin]]"
-        max="[[::rating.limitMax]]"
-        step="0.1"
-        ng-model="rating.value"
-        ng-change="rating.dispatchValueDebounced()"
-    >
+    <td>
+        <input
+            i-filter-rangeInput
+            type="range"
+            id="filtersRating"
+            name="filtersRating"
+            min="[[::rating.limitMin]]"
+            max="[[::rating.limitMax]]"
+            step="0.1"
+            ng-model="rating.value"
+            ng-change="rating.dispatchValueDebounced()"
+        >
 
-    <output ng-bind="rating.value"></output>
-</div>
+        <output i-filter-rangeOutput ng-bind="rating.value"></output>
+    </td>
+</tr>

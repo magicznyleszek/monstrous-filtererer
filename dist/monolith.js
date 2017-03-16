@@ -396,6 +396,11 @@ var HotelsController = function () {
     }
 
     _createClass(HotelsController, [{
+        key: 'chooseHotel',
+        value: function chooseHotel(hotel) {
+            this._$window.alert('You\'ve chosen ' + hotel.Name + '. An excellent choice, may I say.');
+        }
+    }, {
         key: '_getListFromBackendData',
         value: function _getListFromBackendData() {
             if (_typeof(this._$window.hotelsData) === 'object') {

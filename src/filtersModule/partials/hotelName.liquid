@@ -1,13 +1,19 @@
-<div i-filter ng-controller="filtersHotelNameCtrl as hotelName">
-    <label i-filter-label for="filtersHotelName">Name:</label>
+<tr i-filter ng-controller="filtersHotelNameCtrl as hotelName">
+    <th i-filter-name>
+        <label for="filtersHotelName">Name:</label>
+    </th>
 
-    <input
-        type="text"
-        id="filtersHotelName"
-        name="filtersHotelName"
-        i-filter-textInput
-        placeholder="Place name"
-        ng-model="hotelName.value"
-        ng-change="hotelName.dispatchValue()"
-    >
-</div>
+    <td>
+        <input
+            i-filter-textInput
+            i-filter-boxInput
+            type="text"
+            id="filtersHotelName"
+            name="filtersHotelName"
+            i-filter-textInput
+            placeholder="Any"
+            ng-model="hotelName.value"
+            ng-change="hotelName.dispatchValue()"
+        >
+    </td>
+</tr>

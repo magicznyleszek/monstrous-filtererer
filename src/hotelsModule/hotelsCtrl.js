@@ -31,6 +31,12 @@ class HotelsController {
         this.matchHotel = filtersInterface.matchHotel.bind(filtersInterface);
     }
 
+    chooseHotel(hotel) {
+        this._$window.alert(
+            `You've chosen ${hotel.Name}. An excellent choice, may I say.`
+        );
+    }
+
     _getListFromBackendData() {
         if (typeof this._$window.hotelsData === 'object') {
             return this._$window.hotelsData.Establishments;

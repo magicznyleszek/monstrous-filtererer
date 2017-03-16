@@ -1,9 +1,10 @@
 <div i-filters ng-cloak>
     <div i-filter ng-controller="sorterCtrl as sorter">
-        <label i-filter-label for="hotelsSorter">Sort by:</label>
+        <label for="hotelsSorter">Sort by:</label>
 
         <select
             i-filter-select
+            i-filter-boxInput
             id="hotelsSorter"
             name="hotelsSorter"
             ng-model="sorter.selectedOption"

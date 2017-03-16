@@ -1,10 +1,9 @@
-<div i-filter ng-controller="filtersCostCtrl as cost">
-    <label i-filter-label>Cost:</label>
+<tr i-filter ng-controller="filtersCostCtrl as cost">
+    <th i-filter-name>Cost range:</th>
 
-    <div>
-        <label i-filter-label for="filtersCostMin">from</label>
-
+    <td>
         <input
+            i-filter-rangeInput
             type="range"
             id="filtersCostMin"
             name="filtersCostMin"
@@ -15,13 +14,14 @@
             ng-change="cost.dispatchValueDebounced()"
         >
 
-        <output ng-bind="cost.valueMin"></output>
-    </div>
+        <label for="filtersCostMin">from</label>
 
-    <div>
-        <label i-filter-label for="filtersCostMax">to</label>
+        <output i-filter-rangeOutput ng-bind="cost.valueMin"></output>
+
+        <br>
 
         <input
+            i-filter-rangeInput
             type="range"
             id="filtersCostMax"
             name="filtersCostMax"
@@ -32,6 +32,8 @@
             ng-change="cost.dispatchValueDebounced()"
         >
 
-        <output ng-bind="cost.valueMax"></output>
-    </div>
-</div>
+        <label for="filtersCostMax">to</label>
+
+        <output i-filter-rangeOutput ng-bind="cost.valueMax"></output>
+    </td>
+</tr>

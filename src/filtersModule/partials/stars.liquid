@@ -1,12 +1,17 @@
-<div i-filter ng-controller="filtersStarsCtrl as stars">
-    <label i-filter-label for="filtersStars">Minimum stars:</label>
+<tr i-filter ng-controller="filtersStarsCtrl as stars">
+    <th i-filter-name>
+        <label for="filtersStars">Minimum stars:</label>
+    </th>
 
-    <select
-        i-filter-select
-        id="filtersStars"
-        name="filtersStars"
-        ng-model="stars.selectedOption"
-        ng-options="option.label for option in stars.options"
-        ng-change="stars.dispatchValue()"
-    ></select>
-</div>
+    <td>
+        <select
+            i-filter-select
+            i-filter-boxInput
+            id="filtersStars"
+            name="filtersStars"
+            ng-model="stars.selectedOption"
+            ng-options="option.label for option in stars.options"
+            ng-change="stars.dispatchValue()"
+        ></select>
+    </td>
+</tr>

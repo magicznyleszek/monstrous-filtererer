@@ -20,47 +20,81 @@ filters
     line-height: var(--s-leading);
 }
 
-/*******************************************************************************
-filters input
-*******************************************************************************/
-
-[i-filter-label] {
-    display: inline-block;
+[i-filter-name] {
+    padding-right: calc(var(--s-leading) * 0.5);
+    text-align: left;
 }
 
-[i-filter-input] {
+/*******************************************************************************
+filter box-looking inputs
+*******************************************************************************/
+
+[i-filter-boxInput] {
     display: inline-block;
-    border: 0;
+    box-sizing: content-box;
     border-radius: var(--s-global-br);
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+    height: var(--s-leading);
     outline: 0;
+    font-weight: 700;
 }
 
 /* placeholder colors */
-[i-filters-input]::-moz-placeholder {
-    color: color(var(--c-filters-txt) alpha(50%));
+[i-filter-boxInput]::-moz-placeholder {
+    color: color(var(--c-filters-txt) alpha(25%));
 }
 
-[i-filters-input]::-ms-input-placeholder {
-    color: color(var(--c-filters-txt) alpha(50%));
+[i-filter-boxInput]::-ms-input-placeholder {
+    color: color(var(--c-filters-txt) alpha(25%));
 }
 
-[i-filters-input]::-webkit-input-placeholder {
-    color: color(var(--c-filters-txt) alpha(50%));
+[i-filter-boxInput]::-webkit-input-placeholder {
+    color: color(var(--c-filters-txt) alpha(25%));
 }
 
 /* default input state */
-[i-filters-input] {
+[i-filter-boxInput] {
     background-color: transparent;
 }
 
-[i-filters-input]:not([disabled]):hover {
+[i-filter-boxInput]:not([disabled]):hover {
     background-color: color(var(--c-filters-txt) alpha(4%));
 }
 
-[i-filters-input]:not([disabled]):active {
+[i-filter-boxInput]:not([disabled]):active {
     background-color: color(var(--c-filters-txt) alpha(8%));
 }
 
-[i-filters-input]:not([disabled]):focus {
+[i-filter-boxInput]:not([disabled]):focus {
     background-color: var(--c-gold);
+}
+
+/*******************************************************************************
+filter select
+*******************************************************************************/
+
+[i-filter-select] {
+
+}
+
+/*******************************************************************************
+filter rangeInput
+*******************************************************************************/
+
+[i-filter-rangeInput] {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+[i-filter-rangeOutput] {
+    font-weight: 700;
+}
+
+/*******************************************************************************
+filter textInput
+*******************************************************************************/
+
+[i-filter-textInput] {
+
 }
