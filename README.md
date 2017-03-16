@@ -2,7 +2,7 @@
 
 # Monstrous Filtererer
 
-[Check it out live!](https://github.com/smutnyleszek/monstrous-filtererer)
+[Check it out live!](http://monstrous-filtererer.smutnyleszek.com/)
 
 Features:
 
