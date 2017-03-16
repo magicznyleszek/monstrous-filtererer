@@ -39,7 +39,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 // -----------------------------------------------------------------------------
-// filtersCostCtrl -- handles a text input value for hotel name
+// filtersCostCtrl -- handles two range inputs for minimum and maximum cost
 // -----------------------------------------------------------------------------
 
 var FiltersCostController = function () {
@@ -165,6 +165,7 @@ var FiltersInterfaceService = function () {
         this._minStars = null;
         this._costMin = null;
         this._costMax = null;
+        this._minRating = null;
     }
 
     _createClass(FiltersInterfaceService, [{
@@ -181,9 +182,13 @@ var FiltersInterfaceService = function () {
     }, {
         key: 'setCostRange',
         value: function setCostRange(minimum, maximum) {
-            console.log('setCostRange', minimum, maximum);
             this._costMin = Number.parseInt(minimum, 10);
             this._costMax = Number.parseInt(maximum, 10);
+        }
+    }, {
+        key: 'setMinimumRating',
+        value: function setMinimumRating(rating) {
+            this._minRating = Number.parseFloat(rating);
         }
     }, {
         key: 'matchHotel',
@@ -210,6 +215,13 @@ var FiltersInterfaceService = function () {
                 }
             }
 
+            // check minimum rating
+            if (_.isNumber(this._minRating)) {
+                if (Number.parseFloat(hotel.UserRating) < this._minRating) {
+                    return false;
+                }
+            }
+
             return true;
         }
     }]);
@@ -218,6 +230,59 @@ var FiltersInterfaceService = function () {
 }();
 
 angular.module('filtersModule').service('filtersInterface', FiltersInterfaceService);
+'use strict';
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+// -----------------------------------------------------------------------------
+// filtersRatingCtrl -- handles a range input for minimum user rating
+// -----------------------------------------------------------------------------
+
+var FiltersRatingController = function () {
+    _createClass(FiltersRatingController, null, [{
+        key: 'initClass',
+        value: function initClass() {
+            FiltersRatingController.debounceTime = 500;
+
+            FiltersRatingController.$inject = ['$scope', 'filtersInterface'];
+        }
+    }]);
+
+    function FiltersRatingController($scope, filtersInterface) {
+        var _this = this;
+
+        _classCallCheck(this, FiltersRatingController);
+
+        this._filtersInterface = filtersInterface;
+
+        this.limitMin = 0;
+        this.limitMax = 10;
+
+        this.value = this.limitMin;
+        this._dispatchValue();
+
+        this.dispatchValueDebounced = _.debounce(
+        // lodash works outside angular digest cycle, so we need $apply
+        function () {
+            $scope.$apply(_this._dispatchValue.bind(_this));
+        }, FiltersRatingController.debounceTime);
+    }
+
+    _createClass(FiltersRatingController, [{
+        key: '_dispatchValue',
+        value: function _dispatchValue() {
+            this._filtersInterface.setMinimumRating(this.value);
+        }
+    }]);
+
+    return FiltersRatingController;
+}();
+
+FiltersRatingController.initClass();
+
+angular.module('filtersModule').controller('filtersRatingCtrl', FiltersRatingController);
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();

@@ -1,12 +1,14 @@
-<div i-filter ng-controller="sorterCtrl as sorter" ng-cloak>
-    <label i-filter-label for="hotelsSorter">Sort by:</label>
+<div i-filters ng-cloak>
+    <div i-filter ng-controller="sorterCtrl as sorter">
+        <label i-filter-label for="hotelsSorter">Sort by:</label>
 
-    <select
-        i-filter-select
-        id="hotelsSorter"
-        name="hotelsSorter"
-        ng-model="sorter.selectedOption"
-        ng-options="option.label for option in sorter.options"
-        ng-change="sorter.dispatchValue()"
-    ></select>
+        <select
+            i-filter-select
+            id="hotelsSorter"
+            name="hotelsSorter"
+            ng-model="sorter.selectedOption"
+            ng-options="option.label for option in sorter.options"
+            ng-change="sorter.dispatchValue()"
+        ></select>
+    </div>
 </div>

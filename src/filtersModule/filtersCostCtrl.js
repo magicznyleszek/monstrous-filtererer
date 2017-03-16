@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-// filtersCostCtrl -- handles a text input value for hotel name
+// filtersCostCtrl -- handles two range inputs for minimum and maximum cost
 // -----------------------------------------------------------------------------
 
 class FiltersCostController {

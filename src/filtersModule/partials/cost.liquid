@@ -1,7 +1,7 @@
 <div i-filter ng-controller="filtersCostCtrl as cost">
     <label i-filter-label>Cost:</label>
 
-    <form>
+    <div>
         <label i-filter-label for="filtersCostMin">from</label>
 
         <input
@@ -16,9 +16,9 @@
         >
 
         <output ng-bind="cost.valueMin"></output>
-    </form>
+    </div>
 
-    <form>
+    <div>
         <label i-filter-label for="filtersCostMax">to</label>
 
         <input
@@ -33,5 +33,5 @@
         >
 
         <output ng-bind="cost.valueMax"></output>
-    </form>
+    </div>
 </div>

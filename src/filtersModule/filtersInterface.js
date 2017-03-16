@@ -8,6 +8,7 @@ class FiltersInterfaceService {
         this._minStars = null;
         this._costMin = null;
         this._costMax = null;
+        this._minRating = null;
     }
 
     setHotelName(hotelName) {
@@ -20,9 +21,12 @@ class FiltersInterfaceService {
     }
 
     setCostRange(minimum, maximum) {
-        console.log('setCostRange', minimum, maximum);
         this._costMin = Number.parseInt(minimum, 10);
         this._costMax = Number.parseInt(maximum, 10);
+    }
+
+    setMinimumRating(rating) {
+        this._minRating = Number.parseFloat(rating);
     }
 
     matchHotel(hotel) {
@@ -44,6 +48,13 @@ class FiltersInterfaceService {
         if (_.isInteger(this._costMin) && _.isInteger(this._costMax)) {
             const costNumber = Number.parseFloat(hotel.MinCost);
             if (costNumber > this._costMax || costNumber < this._costMin) {
+                return false;
+            }
+        }
+
+        // check minimum rating
+        if (_.isNumber(this._minRating)) {
+            if (Number.parseFloat(hotel.UserRating) < this._minRating) {
                 return false;
             }
         }
